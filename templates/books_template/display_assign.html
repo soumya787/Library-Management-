@@ -1,0 +1,27 @@
+{% extends 'navbar/navbar.html' %}
+
+{% load static %}
+{% block content %}
+<h2 align="center">Issued book details </h2>
+<table border="2" class="table">
+    <tr>
+        <th>Id</th>
+        <th>Student Name</th>
+        <th>Issued Book</th>
+        <th>Issued Date</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    {% for i in issue %}
+        <tr>
+            <td>{{i.id}}
+            <td>{{i.stud_name}}</td>
+            <td>{{i.book_name}}</td>
+            <td>{{i.start_date}}</td>
+            <td><a href="{% url 'updt_issue' i.id %}"><img src="{% static '/images/update.jpg' %}" width="40px" height="40px"></a></td>
+            <td><a href="{% url 'del_issue' i.id %}"><img src="{% static '/images/delete.jpg' %}" width="40px" height="40px"></a></td>
+        </tr>
+        
+    {% endfor %}
+</table>
+{% endblock  %}

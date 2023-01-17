@@ -1,0 +1,19 @@
+#table1{
+    width:500px;
+    height: 200px;
+}
+body{
+    background-image: url('{% static "images/background.jpg" %}');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:aliceblue;
+    font-size: 30px;
+}
+a{
+    color:cornsilk;
+}
+div{
+    border: 3px solid white;
+    width:50%;
+    margin-left: 25%;
+}
