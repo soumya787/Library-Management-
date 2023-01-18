@@ -5,13 +5,20 @@ from django.contrib.auth import authenticate, logout,login
 
 from LibraryApp.models import Books, Course, Issue_book, Student
 
-from django.views.decorators.cache import  cache_control
+from django.views.decorators.cache import  cache_control,never_cache
 from django.contrib.auth.decorators import login_required
 
 from django.db.models import Q
 
 # Create your views here.
+
+# def index_fun(request):
+#     return render(request,'lib_home.html')
+
+
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def login_fun(request):
     if request.method == 'POST':
         userName = request.POST['userName']
@@ -24,11 +31,16 @@ def login_fun(request):
                 return redirect('home')
             else:
                 return render(request,'login.html',{'data':'invalid credentials'})
+        else:
+            if Student.objects.filter(Q(stud_name=userName)).exists():
+                request.session['S_name'] = userName
+                return render(request,'student_template/stud_home.html',{'Name':request.session['S_name']})
     else:
         return render(request,'login.html',{'data':''})
 
 #--------------------------------------------------------------------------------------
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)   
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache  
 def reg_fun(request):
     if request.method == 'POST':
         username = request.POST['txtUserName']
@@ -42,14 +54,35 @@ def reg_fun(request):
             return render(request,'login.html',{'data':''})
     else:
         return render(request,'register.html',{'data':''})
+
+#------------------------------------------------------------------------------------------------------
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
+def add_stud_fun(request):
+    c1 = Course.objects.all()
+    if request.method == 'POST':
+        s1 = Student()
+        s1.stud_name = request.POST['txtName']
+        s1.stud_course =Course.objects.get(course_name = request.POST['ddlCourse']) 
+        s1.stud_phno = request.POST['txtPhno']
+        s1.stud_semester = request.POST['txtSem']
+        s1.save()
+        return redirect('log')
+    return render(request,'student_template/add_student.html',{'course':c1}) 
+
     
 #----------------------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def home_fun(request):
     return render(request,'books_template/home.html') 
 
 #------------------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def addbook_func(request):
     if request.method == 'POST':
         c1 = Course.objects.all()
@@ -65,12 +98,16 @@ def addbook_func(request):
     
 #---------------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def displaybook_func(request):
     books = Books.objects.all()
     return render(request,'books_template/display_book.html',{'books':books})
         
 #----------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def update_book_fun(request,id):
     book = Books.objects.get(id=id)
     c1 = Course.objects.all()
@@ -84,26 +121,29 @@ def update_book_fun(request,id):
 
 #------------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def delete_book_fun(request,id):
     book = Books.objects.get(id=id)
     book.delete()
     return redirect('displaybook')
 
 #------------------------------------------------------------------------------------
-@login_required
-def add_stud_fun(request):
-    c1 = Course.objects.all()
-    if request.method == 'POST':
-        s1 = Student()
-        s1.stud_name = request.POST['txtName']
-        s1.stud_course =Course.objects.get(course_name = request.POST['ddlCourse']) 
-        s1.stud_phno = request.POST['txtPhno']
-        s1.stud_semester = request.POST['txtSem']
-        s1.save()
-        return render(request,'student_template/add_student.html',{'course':c1})
-    return render(request,'student_template/add_student.html',{'course':c1}) 
+
+
 #--------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
+def get_Student_fun(request):
+    books = Books.objects.all()
+    s1 = Student.objects.filter(stud_semester=request.POST['txtSem']).all()
+    return render(request,'books_template/assign_book.html',{'Book':books,'Stud':s1})
+
+#---------------------------------------------------------------------------
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def assignbook_fun(request):
     books = Books.objects.all()
     if request.method =='POST':
@@ -113,17 +153,21 @@ def assignbook_fun(request):
         i1.start_date = request.POST['txtStartDate']
         i1.end_date = request.POST['txtEndDate']
         i1.save()
-        return render(request,'books_template/assign_book.html',{'Book':books})
-    return render(request,'books_template/assign_book.html',{'Book':books})
+        return render(request,'books_template/assign_book.html',{'Book':books,'Stud':''})
+    return render(request,'books_template/assign_book.html',{'Book':books,'Stud':''})
                 
 #-----------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def display_assign_fun(request):
     i1 = Issue_book.objects.all()
     return render(request,'books_template/display_assign.html',{'issue':i1})
 
 #-----------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def delete_issue_fun(request,id):
     i1 = Issue_book.objects.get(id=id)
     i1.delete()
@@ -131,6 +175,8 @@ def delete_issue_fun(request,id):
 
 #-------------------------------------------------------------------------------------
 @login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def updt_issue_fun(request,id):
     i1 = Issue_book.objects.get(id=id)
     s1 = Student.objects.get(id=i1.stud_name_id)
@@ -144,8 +190,25 @@ def updt_issue_fun(request,id):
         i1.save()
         return redirect('displayassign')
     return render(request,'books_template/updt_issue.html',{'Issue':i1,'Stud':s1,'Book':books})
+#-----------------------------------------------------------------------------------------------------
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
+def stud_home_fun(request):
+     return render(request,'student_template/stud_home.html',{'Name':request.session['S_name']})
+
+#----------------------------------------------------------------------------------------------
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
+def stud_books_fun(request):
+    s1 = Student.objects.get(stud_name=request.session['S_name'])
+    i1=  Issue_book.objects.filter(stud_name=s1)
+    return render(request,'student_template/stud_books.html',{'data':i1})
+
+#---------------------------------------------------------------------------------------
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@never_cache
 def log_out_fun(request):
     logout(request)    
     return redirect('log')

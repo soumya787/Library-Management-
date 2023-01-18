@@ -7,33 +7,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static '/css/login.css' %}">
+    
 </head>
 <body style="background-image: url('{% static "images/background.jpg" %}');">
     <h2 align="center">Login Page</h2>
     <form action='' method="post">
         {% csrf_token %}
     <h3 style="color: red;">{{ data }}</h3>
-    <div align="center">
-    <table align="center" id="table1">
-        <tr>
-            <td>UserName:</td>
-            <td><input name="userName" type="text" id="txtName"></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input name="userPassword" type="password" id="txtPswd"></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                <input type="submit" name="btnSub" valu="Login">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right">
-                <a href="{% url 'register' %}">Sign UP</a>
-            </td>
-        </tr>
-    </table>
-</div>
+    <div id="div3">
+        <table align="center" id="table1">
+            <tr>
+                <td>UserName:</td>
+                <td><input name="userName" type="text" id="txtName"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input name="userPassword" type="password" id="txtPswd"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" name="btnSub" valu="Login">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right">
+                    <a href="{% url 'register' %}">Admin Sign UP</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right">
+                    <a href="{% url 'addstud' %}">Student Sign UP</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
 </body>
 </html>

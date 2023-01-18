@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'LibraryManagement.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'LibraryDB',
+        'NAME': BASE_DIR / 'LibraryDataBase',
     }
 }
 
