@@ -17,6 +17,7 @@ class Books(models.Model):
     
 class Student(models.Model):
     stud_name = models.CharField(max_length=50,default=None)
+    stud_password = models.CharField(max_length=50,null=True,default="1234")
     stud_phno = models.BigIntegerField(default=None)
     stud_course  = models.ForeignKey(Course,on_delete=models.CASCADE)
     stud_semester = models.IntegerField(default=None)

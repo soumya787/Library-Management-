@@ -4,10 +4,12 @@
     height: 565px;
 }
 table, th, td {
-    border: 5px solid rgb(243, 181, 9);
     border-collapse: collapse;
   }
-
+th{
+    font-size: 30px;
+    color:rgb(240, 216, 7);
+}
 #div2{
     float:right;
     margin-left: 25%;

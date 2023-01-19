@@ -4,14 +4,22 @@
 
 {% load static %}
 <link href="{% static 'css/display.css' %}" rel="stylesheet">
-
+<style>
+    th{
+        color:rgb(240, 216, 7);
+        font-size: 30px;
+    }
+    td{
+        font-size: 20px; 
+    }
+</style>
 
 <div id="container" style="background-image:url('{% static "images/books.jpg" %}'); background-repeat: no-repeat;
 background-size: 100%;">
 
-<h2 align="center" style="margin-left:50%;padding:5%">Book Details</h2>
+<h2 align="center" style="padding-top:10px">Book Details</h2>
 
-<table align="right" border="4">
+<table class="table" style="border: 5px solid rgb(243, 181, 9);height:100px;color:white" width="500px">
     <tr>
         <th>Book_name</th>
         <th>Author_name</th>

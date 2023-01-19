@@ -31,10 +31,12 @@ def login_fun(request):
                 return redirect('home')
             else:
                 return render(request,'login.html',{'data':'invalid credentials'})
+        elif Student.objects.filter(Q(stud_name=userName) & Q(stud_password=userPassword)).exists():
+            request.session['S_name'] = userName
+            return render(request,'student_template/stud_home.html',{'Name':request.session['S_name']})
         else:
-            if Student.objects.filter(Q(stud_name=userName)).exists():
-                request.session['S_name'] = userName
-                return render(request,'student_template/stud_home.html',{'Name':request.session['S_name']})
+                return render(request,'login.html',{'data':'invalid credentials'})    
+                
     else:
         return render(request,'login.html',{'data':''})
 
@@ -67,6 +69,7 @@ def add_stud_fun(request):
         s1.stud_course =Course.objects.get(course_name = request.POST['ddlCourse']) 
         s1.stud_phno = request.POST['txtPhno']
         s1.stud_semester = request.POST['txtSem']
+        s1.stud_password = request.POST['txtPswd']
         s1.save()
         return redirect('log')
     return render(request,'student_template/add_student.html',{'course':c1}) 
@@ -136,8 +139,9 @@ def delete_book_fun(request,id):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @never_cache
 def get_Student_fun(request):
-    books = Books.objects.all()
-    s1 = Student.objects.filter(stud_semester=request.POST['txtSem']).all()
+    books = Books.objects.filter(course_name=Course.objects.get(course_name=request.POST['txtCourse'])).all()
+    s1 = Student.objects.filter(Q(stud_semester=request.POST['txtSem']) &
+                                Q(stud_course=Course.objects.get(course_name=request.POST['txtCourse']))).all()
     return render(request,'books_template/assign_book.html',{'Book':books,'Stud':s1})
 
 #---------------------------------------------------------------------------

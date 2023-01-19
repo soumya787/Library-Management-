@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'LibraryManagement.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'LibraryDataBase',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'LibraryDataBase',
+        'USER':'root',
+        'PASSWORD':'admin',
+        'HOST':'localhost',
+        'PORT':3306
     }
 }
 
