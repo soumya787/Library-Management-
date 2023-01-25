@@ -26,6 +26,8 @@ urlpatterns = [
     path('addstud',views.add_stud_fun,name="addstud"),
     path('studhome',views.stud_home_fun,name='studhome'),
     path('stud_books',views.stud_books_fun,name='stud_books'),
+    path('getprofile',views.get_prof_fun,name='getprof'),
+    path('updateprof/<int:id>',views.update_prof_fun,name='updtprof'),
     
     path('log_out',views.log_out_fun,name='log_out')        
     

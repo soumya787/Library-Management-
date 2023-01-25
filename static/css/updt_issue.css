@@ -1,0 +1,26 @@
+#div1{
+ height:565px;
+ color:#B73E3E;
+
+ font-style:bold;
+}
+h2{
+padding-top:50px;
+color:White;
+margin-left:40%;
+}
+table{
+margin-left:50%;
+}
+td{
+font-weight: bold;
+ font-size:20px;
+}
+input,select{
+width:40%;
+}
+input[type=submit]{
+width:30%;
+color:#FF8B13;
+font-size:30px;
+}
